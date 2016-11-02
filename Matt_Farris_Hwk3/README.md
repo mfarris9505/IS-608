@@ -1,6 +1,7 @@
 # Homework 3, Question 1
 
-* PLEASE NOTE: THESE ONLY RUN IN THE BROWSER, NOT IN THE RSTUDIO BROWSER- I LEARNED THIS THE HARD WAY 
+* PLEASE NOTE: THESE ONLY RUN IN THE BROWSER, NOT IN THE RSTUDIO BROWSER- I LEARNED THIS THE HARD WAY*
+
 For this question, we selected a single input for the shiny app. We used the data source from github
 (copied directly for simpliciity) and subsetted the data to look only at 2010 data. We created 3 
 visuals for the data in 3 separate tab.  
