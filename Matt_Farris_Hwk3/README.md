@@ -1,5 +1,6 @@
 # Homework 3, Question 1
 
+* PLEASE NOTE: THESE ONLY RUN IN THE BROWSER, NOT IN THE RSTUDIO BROWSER- I LEARNED THIS THE HARD WAY 
 For this question, we selected a single input for the shiny app. We used the data source from github
 (copied directly for simpliciity) and subsetted the data to look only at 2010 data. We created 3 
 visuals for the data in 3 separate tab.  
@@ -17,7 +18,7 @@ the date, and see exactly "where" higher mortality takes place.
 The final tab is the summary page, and shows a sorted table with all the data we have available on hand.
 This table was included for anyone who is interested in the break-down, to see the source of our charts. 
 
-# Question 2
+# Homework 3, Question 2
 
 For question 2 we created 2 separate files. We did this as our first attempt though interesting, didn't 
 really show what we wanted to. A description is shown below.  
@@ -37,5 +38,13 @@ pressing the play button (using animation), we can see the progression moving fo
 
 ### Map
 Again we see a map with relatively variance of the data, going from dark purple to orange. By looking at the 
-data we choose a range of colors that encorporated most of the data (from -50 to 50). Selecting a Diagnosis and pressing the 
-play button we can see the changing density per year.  
+data we choose a range of colors that encorporated most of the data (from -50 to 50). Selecting a Diagnosis 
+and pressing the play button we can see the changing density per year.  
+
+## Line Graph
+The final set of Server and UI scripts show a Linegraph and its corresponding table summary (in two tabs). 
+In this we selected two inputs, the first being the Diagnosis. The second input was the state, however, we 
+allowed multiple selections in this input. We did this to allow the front end-user a greater section in 
+determining which state (or states) they want to see. However, we limited this number to 5. This was 
+arbitrarily chosen as I personally believe any more that 6 lines (the graph automatically adds National Data)
+would detract from the data displayed. 
