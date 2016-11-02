@@ -1,12 +1,16 @@
 
 # Farris_Matt_Hwk3 
-# Question One Server Script
-#
+# Question Two Server Script
+# This is for the table and Line Graph with multiple state inputs
 
 library(shiny)
 library(googleVis)
 #Taking Data Directly from Github page for simplicity.
 library(RCurl)
+library(dplyr)
+library(magrittr)
+library(reshape2)
+
 url <- "https://raw.githubusercontent.com/jlaurito/CUNY_IS608/master/lecture3/data/cleaned-cdc-mortality-1999-2010.csv"
 dat <- getURL(url, ssl.verifypeer=0L, followlocation=1L)
 dat <- read.csv(text=dat)
@@ -18,48 +22,61 @@ shinyServer(function(input, output) {
   
   #Creating a Reactive dataset for our functions below
   dataDiag <-reactive({
-      subset(dataTotal, ICD.Chapter == input$select & Year == input$year)
+    subset(dataTotal, ICD.Chapter == input$select)
   })
-  
   dataState <-reactive({
-    input$state
+    subset(dataTotal, State %in% input$state & ICD.Chapter == input$select)
   })
-
-  dataYear<- dataDiag()  %>% 
-    select(Year, Deaths, Population) %>%
-    group_by(Year) %>%
-    summarize(Deaths=sum(Deaths), Population=sum(as.numeric(Population))) 
-  dataYear$Crude.Rate <- (as.numeric(dataYear$Deaths)/as.numeric(dataYear$Population))*100000 
-  dataYear$State <- "National"
-
-  dataSubset <- dataDiag()  %>% 
-    select(State,Year, Deaths, Population, Crude.Rate) %>%
-    filter(State== dataState())
-  dataSubset <-rbind(dataSubset,dataYear) 
 
 
   #Plot of Diagnosis over Time Compared to National Average. 
-  output$chart<- renderGvis({
+  output$line<- renderGvis({
     
-    gvisBarChart(dataSubset,
-                 options=list(
+    dataSubset <- dataState()  %>% 
+      select(State,Year, Crude.Rate)
+    
+    dataYear<- dataDiag() %>%
+      select(Year, Deaths, Population) %>%
+      group_by(Year) %>%
+      summarize(Deaths=sum(Deaths), Population=sum(as.numeric(Population)))
+    dataYear$Crude.Rate <- (as.numeric(dataYear$Deaths)/as.numeric(dataYear$Population))*100000 
+    dataYear <- dataDiag() %>%
+      select(Year,Crude.Rate)
+    dataYear$State <- "National"
+    dataSubset <-rbind(dataSubset,dataYear)
+    dataSubset<- dcast(dataSubset, Year~State, mean)
+    
+    
+    gvisLineChart(dataSubset, xvar = "Year",
+                  options=list(
                    title = "Mortality Rank by State",
+                   hAxis="{title:'Year'}",
+                   vAxis="{title:'Mortality Rate per 100,000'}",
                    width=700, 
                    height=900))
   })
-  #Mapping Mortality Rate
-  output$map <- renderGvis({
-    dataVar <- dataSubset()
-    dataVar$Variance <- dataVar$Crude.Rate- (sum(as.numeric(dataVar$Deaths))/sum(as.numeric(dataVar$Population))*100000) 
-    gvisGeoChart(dataVar, "State", "Variance",
-                 colorvar = "Variance",
-                 options=list(
-                   title= "Density Map of Mortality Rate",
-                   region="US",
-                   displayMode="regions",
-                   colorAxis="{values:[-25,25],colors:['blue','red']}",
-                   resolution="provinces",
-                   width=600, 
-                   height=400))
-  }) 
+  #Sortable Table
+  output$table<- renderGvis({
+    
+    dataSubset <- dataState()  %>% 
+      select(State,Year, Crude.Rate)
+    
+    dataYear<- dataDiag() %>%
+      select(Year, Deaths, Population) %>%
+      group_by(Year) %>%
+      summarize(Deaths=sum(Deaths), Population=sum(as.numeric(Population)))
+    dataYear$Crude.Rate <- (as.numeric(dataYear$Deaths)/as.numeric(dataYear$Population))*100000 
+    dataYear <- dataDiag() %>%
+      select(Year,Crude.Rate)
+    dataYear$State <- "National"
+    dataSubset <-rbind(dataSubset,dataYear)
+    dataSubset<- dcast(dataSubset, Year~State, mean)
+   
+     gvisTable(dataSubset, 
+              options=list(
+                title = "Sortable Table View of Mortality by Diagnosis",
+                width=1000, 
+                height=1000))
+  })
+ 
 })

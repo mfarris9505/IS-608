@@ -24,21 +24,21 @@ shinyUI(fluidPage(
                   selected = 1),
       
       br(),
-      
-      
 
       #Select State 
-      selectizeInput("state", label = h3("Select State"), 
-                  choices = ICDNames, multiple = TRUE,
-                  selected = 1)
+      selectizeInput("state", label = h3("Select State(s) - Max 5"), 
+                  choices = State, multiple = TRUE,
+                  options = list(maxItems = 5)),
+      
+      submitButton("Submit")
     ),
     
     
     # Tab Display 
     mainPanel(
       tabsetPanel(
-        tabPanel("BarChart", htmlOutput("chart")), 
-        tabPanel("Line", htmlOutput("line"))
+        tabPanel("Line", htmlOutput("line")),
+        tabPanel("Table", htmlOutput("table"))
       )
     )
   )

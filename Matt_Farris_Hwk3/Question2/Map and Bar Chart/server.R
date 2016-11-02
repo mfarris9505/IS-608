@@ -40,8 +40,10 @@ shinyServer(function(input, output) {
                  options=list(
                    title= "Density Map of Mortality Rate",
                    region="US",
+                   sep = "", 
                    displayMode="regions",
-                   colorAxis="{values:[-25,25],colors:['blue','red']}",
+                   colorAxis="{values:[-50,-25,0,25,50],
+                   colors:['blue','purple','red','orange','yellow']}",
                    resolution="provinces",
                    width=600, 
                    height=400))

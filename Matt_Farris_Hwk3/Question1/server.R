@@ -41,6 +41,7 @@ shinyServer(function(input, output) {
                    region="US",
                    displayMode="regions", 
                    resolution="provinces",
+                   colors="['blue','red']",
                    width=600, 
                    height=400))
   }) 

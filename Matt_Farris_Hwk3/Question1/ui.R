@@ -14,7 +14,7 @@ ICDNames <- unique(as.character(data2010$ICD.Chapter))
 shinyUI(fluidPage(
   
   # Application title
-  titlePanel("Mortality Rate Per Thousands"),
+  titlePanel("Mortality Rate Per 100,000 for 2010"),
   
   # Sidebar with Select Inputs from List 
   sidebarLayout(
