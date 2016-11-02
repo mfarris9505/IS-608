@@ -30,7 +30,7 @@ shinyUI(fluidPage(
 
       sliderInput("year", label = "Select Year",
                   min=1999, max=2010, value=1999,
-                  animate=TRUE)
+                  sep = "", animate=TRUE)
     ),
     
     

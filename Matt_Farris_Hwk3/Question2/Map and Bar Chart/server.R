@@ -36,7 +36,6 @@ shinyServer(function(input, output) {
     dataVar <- dataSubset()
     dataVar$Variance <- dataVar$Crude.Rate- (sum(as.numeric(dataVar$Deaths))/sum(as.numeric(dataVar$Population))*100000) 
     gvisGeoChart(dataVar, "State", "Variance",
-                 colorvar = "Variance",
                  options=list(
                    title= "Density Map of Mortality Rate",
                    region="US",

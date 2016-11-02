@@ -25,7 +25,7 @@ shinyUI(fluidPage(
       
       br(),
 
-      #Select State 
+      #Select State Input
       selectizeInput("state", label = h3("Select State(s) - Max 5"), 
                   choices = State, multiple = TRUE,
                   options = list(maxItems = 5)),

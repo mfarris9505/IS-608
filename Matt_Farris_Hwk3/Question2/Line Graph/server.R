@@ -5,19 +5,18 @@
 
 library(shiny)
 library(googleVis)
-#Taking Data Directly from Github page for simplicity.
 library(RCurl)
 library(dplyr)
 library(magrittr)
 library(reshape2)
-
+#Taking Data Directly from Github page for simplicity.
 url <- "https://raw.githubusercontent.com/jlaurito/CUNY_IS608/master/lecture3/data/cleaned-cdc-mortality-1999-2010.csv"
 dat <- getURL(url, ssl.verifypeer=0L, followlocation=1L)
 dat <- read.csv(text=dat)
 dataTotal <-data.frame(dat)
 
 
-# Shiny Server functions for our Barchart, Map, and Table
+# Shiny Server functions
 shinyServer(function(input, output) {
   
   #Creating a Reactive dataset for our functions below
